@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="/CSS/style3.css">
+</head>
+<body>
+
+    <nav>
+        <a href="index.html">Go back to Welcome</a>
+    </nav>
+
+<main>
+
+    <header>
+        <div class="menu-cafe" id="menuCaf"></div>
+            <h1>Our Menu!</h1>
+            <p>Come and try our fresh and tasty plates</p>
+    </header>
+
+    <section class="menu-section" id="breakfast">
+        <h2>Breakfast</h2>
+        <div class="menu-container" id="breakfastMenu"></div>
+    </section>
+
+    <section class="menu-section" id="lunch">
+        <h2>Lunch</h2>
+        <div class="menu-container" id="lunchMenu"></div>
+    </section>
+
+    <section class="menu-section" id="dinner">
+        <h2>Dinner</h2>
+        <div class="menu-container" id="dinnerMenu"></div>
+    </section>
+
+    <button onclick="submitOrder()">Submit Order</button>
+    
+    <form id="orderForm">
+    </form>
+
+</main>
+    
+<script src="/JS/menu.js"></script>
+
+<script>
+    document.querySelector('button[type="submit"]').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(document.getElementById('orderForm'));
+
+        fetch('/submitOrder', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to submit order');
+            }
+        })
+        .then(data => {
+            console.log(data);
+            alert('Order has been successfully submitted!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to submit order. Please try again later.');
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
